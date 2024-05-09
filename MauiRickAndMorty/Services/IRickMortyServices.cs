@@ -10,5 +10,8 @@ namespace MauiRickAndMorty.Services
     public interface IRickMortyServices
     {
         Task <Rooot> all();
+        Task <LocationsModels> GetLocationById(string id);
+
+        Task<Result> GetCharacterByURL(string residentUrl);
     }
 }

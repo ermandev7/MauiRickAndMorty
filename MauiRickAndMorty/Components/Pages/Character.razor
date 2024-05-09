@@ -1,4 +1,4 @@
-﻿@page "/rickandmorty"
+﻿@page "/"
 @using MauiRickAndMorty.Models
 @using MauiRickAndMorty.Services
 @inject IRickMortyServices Service
@@ -17,11 +17,11 @@
                 <p class="card-text">@result.status - @result.species</p>
                 <p class="card-text"><strong>Origen:</strong> @result.origin.name</p>
                 <p class="card-text">
-                    <strong>Última ubicación conocida:</strong>
-                    <a href="@result.location.url">@result.location.name</a>
+                    <strong>Última ubicación conocida:</strong><br />
+                    <a href="location/@result.id">@result.location.name</a>
                 </p>
                 <p class="card-text">
-                    <a href="@result.episode">Ver Episodios</a>
+                    <a href="episode/@result.episode">Ver Episodios</a>
                     
                 </p>
                 <p class="card-text"><strong>Género:</strong> @result.gender</p>

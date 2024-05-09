@@ -1,5 +1,63 @@
-﻿<h3>Locations</h3>
+﻿@page "/location/{LocationId}"
+@using MauiRickAndMorty.Models
+@using MauiRickAndMorty.Services
+@inject IRickMortyServices Service
+
+<h3>Detalles de la Ubicación</h3>
+<dl>
+    @if (isLoading)
+    {
+        <div>Cargando datos, por favor espera...</div>
+    }
+    else if (locationsModels != null)
+    {
+       
+        <dt>Nombre</dt>
+        <dd>@locationsModels.name</dd>
+        <dt>Tipo</dt>
+        <dd>@locationsModels.type</dd>
+        <dt>Dimensión</dt>
+        <dd>@locationsModels.dimension</dd>
+        <dt>Residentes</dt>
+        <dd>
+            <ul>
+                @foreach (var resident in residentDetails)
+                {
+                    <li>
+                        <img src="@resident.image" alt="Imagen de @resident.name" /><br />
+                        <a href="@resident.url" target="_blank">@resident.name</a>
+                        <div>
+                            <span>@resident.status - @resident.species</span>
+                            <span>@resident.gender</span>
+                            <span>Creado el: @resident.created.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </dd>
+        <dt>URL</dt>
+        <dd><a href="@locationsModels.url" target="_blank">@locationsModels.url</a></dd>
+        <dt>Creado</dt>
+        <dd>@locationsModels.created.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")</dd>
+    }
+   
+</dl>
 
 @code {
-
+    private LocationsModels locationsModels;
+    [Parameter]
+    public string LocationId { get; set; }
+    private List<Result> residentDetails = new List<Result>();
+    private bool isLoading = true ;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        locationsModels = await Service.GetLocationById( LocationId);
+        foreach (var residentUrl in locationsModels.residents)
+        {
+            Result resident = await Service.GetCharacterByURL(residentUrl);
+            residentDetails.Add(resident);
+        }
+        isLoading = false;
+    }
 }
