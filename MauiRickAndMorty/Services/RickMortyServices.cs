@@ -44,6 +44,36 @@ namespace MauiRickAndMorty.Services
             }
         }
 
+        public async Task<Result> GetCharacteById(string id)
+        {
+         
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://rickandmortyapi.com/api/character/" + id);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var data = JsonSerializer.Deserialize<Result>(content);
+
+                    if (data != null && data != null)
+                    {
+
+                        return data;
+                    }
+
+
+                }
+                return new Result();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return new Result();
+            }
+        }
+
         public async Task<Result> GetCharacterByURL(string residentUrl)
         {
             //https://rickandmortyapi.com/api/character/38
@@ -71,6 +101,35 @@ namespace MauiRickAndMorty.Services
 
                 Console.WriteLine(ex.Message);
                 return new Result();
+            }
+        }
+
+        public async Task<EpisodesModels> GetEpisodesByURL(string url)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var data = JsonSerializer.Deserialize<EpisodesModels>(content);
+
+                    if (data != null && data != null)
+                    {
+
+                        return data;
+                    }
+
+
+                }
+                return new EpisodesModels();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return new EpisodesModels();
             }
         }
 

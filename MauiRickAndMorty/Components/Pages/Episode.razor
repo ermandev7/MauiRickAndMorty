@@ -1,7 +1,78 @@
-﻿@page "/episode/{EpisodeId}"
-<h3>Episode</h3>
+﻿@page "/episode/{CharacterId}"
+@using MauiRickAndMorty.Models
+@using MauiRickAndMorty.Services
+@inject IRickMortyServices Service
+
+
+@if (result is not null)
+{
+    <div>
+        <div class="card bg-dark text-white">
+            
+                <img src="@result.image" alt="@result.name" />
+           
+        
+            <div class="card-body">
+
+                <h4>@result.name</h4>
+                <p><strong>Estado:</strong> @result.status</p>
+                <p><strong>Especie:</strong> @result.species</p>
+                <p><strong>Tipo:</strong> @result.type</p>
+                <p><strong>Género:</strong> @result.gender</p>
+                <p><strong>Origen:</strong> @result.origin.name</p>
+                <p><strong>Localización:</strong> @result.location.name</p>
+                <p><strong>Creado:</strong> @result.created.ToString("dd/MM/yyyy")</p>
+            </div>
+
+        </div>
+        <br />
+        <h5 class="text-center text-white rounded  p-3 bg-primary p-2">Episodios:</h5>
+        <br />
+       
+
+            @if (lisEpisode is not null)
+            {
+                @foreach (var item in lisEpisode)
+                {
+                    <div class="card">
+
+
+                    <div class="card-body text-white rounded bg-dark">
+                            <h4>@item.name</h4>
+                            <p><strong>Fecha de emisión:</strong> @item.air_date</p>
+                            <p><strong>Episodio:</strong> @item.episode</p>
+                            <p><strong>Creado:</strong> @item.created.ToString("dd/MM/yyyy")</p>
+                        </div>
+                    </div>
+                    <br />
+                }
+            }
+       
+      
+    </div>
+}
+else
+{
+    <p>Cargando detalles del personaje...</p>
+}
+
+
 
 @code {
     [Parameter]
-    public string EpisodeId { get; set; }
+    public string CharacterId { get; set; }
+    private Result result { get; set; }
+    private bool isLoading = true;
+    private List<EpisodesModels> lisEpisode = new List<EpisodesModels>();
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        result = await Service.GetCharacteById(CharacterId);
+        foreach (var episodeUrl in result.episode)
+        {
+            EpisodesModels resident = await Service.GetEpisodesByURL(episodeUrl);
+            lisEpisode.Add(resident);
+        }
+        isLoading = false;
+    }
 }

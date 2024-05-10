@@ -2,18 +2,18 @@
 @using MauiRickAndMorty.Models
 @using MauiRickAndMorty.Services
 @inject IRickMortyServices Service
-<h3>rickandmorty</h3>
+
 @if (_data !=  null)
 {
   
 
     @foreach (var result in _data.results )
     {
-        <div class="card">
+        <div class="card bg-dark text-white">
             <img src="@result.image" alt="Imagen de @result.name" class="card-img-top" />
             <div class="card-body">
 
-                <a href="@result.url"><h5 class="card-title">@result.name</h5></a>
+                <h5 ><h5 class="card-title">@result.name</h5></h5>
                 <p class="card-text">@result.status - @result.species</p>
                 <p class="card-text"><strong>Origen:</strong> @result.origin.name</p>
                 <p class="card-text">
@@ -21,42 +21,16 @@
                     <a href="location/@result.id">@result.location.name</a>
                 </p>
                 <p class="card-text">
-                    <a href="episode/@result.episode">Ver Episodios</a>
+                    <a href="episode/@result.id">Ver Episodios</a>
                     
                 </p>
                 <p class="card-text"><strong>Género:</strong> @result.gender</p>
                 <p class="card-text"><strong>Creado el:</strong> @result.created.ToString("dd/MM/yyyy")</p>
             </div>
-        </div>
+        </div><br />
     }
 }
-<style>
-    .card {
-        border: 1px solid #ddd;
-        border-radius: 0.25rem;
-        max-width: 18rem;
-        margin: 1rem;
-    }
 
-    .card-img-top {
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-        width: 100%;
-        height: auto;
-    }
-
-    .card-body {
-        padding: 1rem;
-    }
-
-    .card-title {
-        margin-bottom: 0.75rem;
-    }
-
-    .card-text:last-child {
-        margin-bottom: 0;
-    }
-</style>
 @code {
     private Rooot _data;
     private Info _info; 
