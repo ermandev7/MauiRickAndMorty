@@ -1,2 +1,4 @@
 # MauiRickAndMorty API
-https://rickandmortyapi.com/
+-Esta aplicacion consume el api de rick and morty 
+-link de la documentacion aqui -> https://rickandmortyapi.com/
+# Capturas de la palicaion
